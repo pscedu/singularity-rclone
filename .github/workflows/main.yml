@@ -1,0 +1,38 @@
+name: Singularity build
+on: [push, pull_request]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        singularity_version:
+          - '3.7.3'
+    container:
+      image: quay.io/singularity/singularity:v${{ matrix.singularity_version }}
+      options: --privileged
+    steps:
+    - name: Check out code for the container build
+      uses: actions/checkout@v1
+
+    - name: Build and test container
+      run: |
+       for DIRECTORY in *
+       do
+         if [ -d $DIRECTORY ]; then
+           if [ $DIRECTORY != 'images' ]; then
+             cd $DIRECTORY
+
+             echo "Building container"
+             bash ./build.sh
+
+             if [ -f ./test.sh ]; then
+              echo "Running tests"
+              bash ./test.sh
+             else
+              echo "Test file not found. Skipping tests."
+             fi
+             cd ..
+           fi
+         fi
+       done
