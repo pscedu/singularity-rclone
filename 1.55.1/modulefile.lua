@@ -4,6 +4,8 @@
 -- "URL: https://www.psc.edu/resources/software"
 -- "Category: Other"
 -- "Description: rclone is a command line program to manage files on cloud storage."
+-- "Keywords: singularity utilities"
+
 
 whatis("Name: rclone")
 whatis("Version: 1.55.1")
