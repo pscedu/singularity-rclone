@@ -1,6 +1,7 @@
 name: Singularity build
 on: [push, pull_request]
 jobs:
+
   build:
     name: Build
     runs-on: ubuntu-18.04
@@ -14,25 +15,31 @@ jobs:
     steps:
     - name: Check out code for the container build
       uses: actions/checkout@v1
+      
+    - name: Install useful utilities
+      run: apk update && apk add --no-cache tree figlet wget
 
     - name: Build and test container
       run: |
        for DIRECTORY in *
        do
          if [ -d $DIRECTORY ]; then
-           if [ $DIRECTORY != 'images' ]; then
-             cd $DIRECTORY
+            if [[ $DIRECTORY ~= 'images' ]]; then
+                cd $DIRECTORY
 
-             echo "Building container"
-             bash ./build.sh
+                if [ ! -f .ignore ]; then
+                    echo "Building container"
+                    bash ./build.sh
 
-             if [ -f ./test.sh ]; then
-              echo "Running tests"
-              bash ./test.sh
-             else
-              echo "Test file not found. Skipping tests."
-             fi
-             cd ..
+                    if [ -f ./test.sh ]; then
+                        echo "Running tests"
+                        bash ./test.sh
+                    else
+                        echo "Test file not found. Skipping tests."
+                    fi
+                fi
+            cd ..
            fi
          fi
-       done
+        done
+
