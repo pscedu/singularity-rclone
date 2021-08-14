@@ -24,7 +24,7 @@ jobs:
        for DIRECTORY in *
        do
          if [ -d $DIRECTORY ]; then
-            if [[ $DIRECTORY ~= 'images' ]]; then
+            if [[ $DIRECTORY != 'images' ]]; then
                 cd $DIRECTORY
 
                 if [ ! -f .ignore ]; then
