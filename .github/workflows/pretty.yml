@@ -1,0 +1,109 @@
+name: Publishing ready
+on: [push, pull_request]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+      
+    - name: Install useful utilities
+      run: sudo apt-get install -y tree
+
+    - name: Checking if LICENSE exists
+      run: |
+        FILE=LICENSE
+        if [ -f "$FILE" ]; then
+            echo "File "$FILE" exists."
+            exit 0
+        else 
+            echo "File $FILE does not exist."
+            exit 1
+        fi
+
+    - name: Checking if Apache License Version 2.0, January 2004 is being used
+      run: |
+        if grep --quiet "Apache License" LICENSE && grep --quiet "Version 2.0, January 2004" LICENSE; then
+            echo "Using Apache License Version 2.0, January 2004"
+            exit 0
+        else
+            echo "Not using Apache License Version 2.0, January 2004"
+            exit 1
+        fi
+    
+    - name: Checking if CONTRIBUTING guide exists
+      run: |
+        FILE=CONTRIBUTING.md
+        if [ -f "$FILE" ]; then
+            echo "File "$FILE" exists."
+            exit 0
+        else 
+            echo "File $FILE does not exist."
+            exit 1
+        fi
+
+    - name: Checking if README file exists
+      run: |
+        FILE=README.md
+        if [ -f "$FILE" ]; then
+            echo "File "$FILE" exists."
+            exit 0
+        else 
+            echo "File $FILE does not exist."
+            exit 1
+        fi
+    
+    - name: Checking if copyrighted to Pittsburgh Supercomputing Center
+      run: |
+        if grep --quiet "Pittsburgh Supercomputing Center. All Rights Reserved." README.md; then
+            echo "Copyright (c) Pittsburgh Supercomputing Center"
+            exit 0
+        else
+            echo "No reference to Pittsburgh Supercomputing Center"
+            exit 1
+        fi
+
+    - name: Checking if there exists at least one Singularity definition file
+      run: |
+        FILE=Singularity
+        if [ $(find . -name "$FILE" -mmin -5 | wc -l) -gt 0 ]; then 
+            echo "File "$FILE" was found.";
+            exit 0 
+        else 
+            echo "File "$FILE" was not found.";
+            exit 1
+        fi
+
+    - name: Checking if there exists at least one build script
+      run: |
+        FILE=build.sh
+        if [ $(find . -name "$FILE" -mmin -5 | wc -l) -gt 0 ]; then 
+            echo "File "$FILE" was found.";
+            exit 0 
+        else 
+            echo "File "$FILE" was not found.";
+            exit 1
+        fi
+
+    - name: Checking if there exists at least one remote build script
+      run: |
+        FILE=rbuild.sh
+        if [ $(find . -name "$FILE" -mmin -5 | wc -l) -gt 0 ]; then 
+            echo "File "$FILE" was found.";
+            exit 0 
+        else 
+            echo "File "$FILE" was not found.";
+            exit 1
+        fi
+
+    - name: Checking if there exists at least one test script
+      run: |
+        FILE=test.sh
+        if [ $(find . -name "$FILE" -mmin -5 | wc -l) -gt 0 ]; then 
+            echo "File "$FILE" was found.";
+            exit 0 
+        else 
+            echo "File "$FILE" was not found.";
+            exit 1
+        fi
