@@ -1,4 +1,5 @@
 ![Status](https://github.com/pscedu/singularity-rclone/actions/workflows/main.yml/badge.svg)
+![Status](https://github.com/pscedu/singularity-rclone/actions/workflows/pretty.yml/badge.svg)
 ![Issue](https://img.shields.io/github/issues/pscedu/singularity-rclone)
 ![forks](https://img.shields.io/github/forks/pscedu/singularity-rclone)
 ![Stars](https://img.shields.io/github/stars/pscedu/singularity-rclone)
