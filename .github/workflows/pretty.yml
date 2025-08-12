@@ -32,16 +32,7 @@ jobs:
             exit 1
         fi
     
-    - name: Checking if CONTRIBUTING guide exists
-      run: |
-        FILE=CONTRIBUTING.md
-        if [ -f "$FILE" ]; then
-            echo "File "$FILE" exists."
-            exit 0
-        else 
-            echo "File $FILE does not exist."
-            exit 1
-        fi
+
 
     - name: Checking if README file exists
       run: |
